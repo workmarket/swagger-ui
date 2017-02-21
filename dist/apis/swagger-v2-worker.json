@@ -1,0 +1,2973 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Worker API",
+    "version" : "v2",
+    "title" : "Swagger spec for Work Market API v2/Worker API",
+    "termsOfService" : "https://www.workmarket.com/tos",
+    "contact" : {
+      "name" : "Work Market API Team",
+      "url" : "https://developer.workmarket.com",
+      "email" : "api@workmarket.com"
+    },
+    "license" : {
+      "name" : "Company Licence",
+      "url" : "https://developer.workmarket.com/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host" : "www.workmarket.com",
+  "basePath" : "/",
+  "tags" : [ {
+    "name" : "Accounts"
+  }, {
+    "name" : "Assignments"
+  }, {
+    "name" : "Funds"
+  }, {
+    "name" : "assignment"
+  }, {
+    "name" : "profile"
+  }, {
+    "name" : "search"
+  }, {
+    "name" : "services"
+  }, {
+    "name" : "worker"
+  } ],
+  "schemes" : [ "https" ],
+  "paths" : {
+    "/v2/worker/profile" : {
+      "post" : {
+        "tags" : [ "worker", "profile" ],
+        "summary" : "Signup a new user",
+        "description" : "",
+        "operationId" : "signup",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/CreateNewWorkerRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "meta" : {
+                  "$ref" : "#/definitions/meta"
+                },
+                "pagination" : {
+                  "type" : "object"
+                },
+                "results" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/definitions/CreateNewWorkerResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Could not create user."
+          }
+        }
+      }
+    },
+    "/v2/worker/profile/{userNumber}" : {
+      "get" : {
+        "tags" : [ "worker", "profile" ],
+        "summary" : "Get a profile by userNumber",
+        "description" : "",
+        "operationId" : "getUserProfile",
+        "parameters" : [ {
+          "name" : "userNumber",
+          "in" : "path",
+          "description" : "User Number of the user in question",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "meta" : {
+                  "$ref" : "#/definitions/meta"
+                },
+                "pagination" : {
+                  "type" : "object"
+                },
+                "results" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/definitions/Profile"
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "api.exceptions.forbidden"
+          }
+        }
+      }
+    },
+    "/v2/workers/search" : {
+      "get" : {
+        "tags" : [ "search" ],
+        "summary" : "Search for workers",
+        "description" : "",
+        "operationId" : "search",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/WorkersSearchRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "meta" : {
+                  "$ref" : "#/definitions/meta"
+                },
+                "pagination" : {
+                  "type" : "object"
+                },
+                "results" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/definitions/WorkersSearchResult"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/accounts" : {
+      "get" : {
+        "tags" : [ "Accounts" ],
+        "summary" : "Get all accounts",
+        "description" : "",
+        "operationId" : "getAccounts",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/accounts/{accountId}" : {
+      "get" : {
+        "tags" : [ "Accounts" ],
+        "summary" : "Get an account by ID",
+        "description" : "",
+        "operationId" : "getAccount",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "accountId",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/assignments" : {
+      "get" : {
+        "tags" : [ "assignment", "worker" ],
+        "summary" : "Get a list of assignments",
+        "description" : "",
+        "operationId" : "getList",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/AssignmentRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/assignments/accept/{workNumber}" : {
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "[DEPRECATED] Accept an assignment",
+        "description" : "",
+        "operationId" : "acceptDeprecated",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "meta" : {
+                  "$ref" : "#/definitions/meta"
+                },
+                "pagination" : {
+                  "type" : "object"
+                },
+                "results" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/definitions/AcceptWork"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated" : true
+      }
+    },
+    "/worker/v2/assignments/checkin/{workNumber}" : {
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "[DEPRECATED] Check-in to an assignment",
+        "description" : "",
+        "operationId" : "checkInDeprecated",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/CheckIn"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        },
+        "deprecated" : true
+      }
+    },
+    "/worker/v2/assignments/checkin/{workNumber}/{checkInOutPairId}" : {
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "[DEPRECATED] Update a Check-in",
+        "description" : "",
+        "operationId" : "updateCheckInDeprecated",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "checkInOutPairId",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/CheckIn"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        },
+        "deprecated" : true
+      }
+    },
+    "/worker/v2/assignments/checkout/{workNumber}" : {
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "[DEPRECATED] Check-out of an assignment",
+        "description" : "",
+        "operationId" : "checkOutDeprecated",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/CheckOut"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        },
+        "deprecated" : true
+      }
+    },
+    "/worker/v2/assignments/checkout/{workNumber}/{checkInOutPairId}" : {
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "[DEPRECATED] Update a Check-out",
+        "description" : "",
+        "operationId" : "updateCheckOutDeprecated",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "checkInOutPairId",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/CheckOut"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        },
+        "deprecated" : true
+      }
+    },
+    "/worker/v2/assignments/complete/{workNumber}" : {
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "[DEPRECATED] Complete an assignment",
+        "description" : "",
+        "operationId" : "completeDeprecated",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Complete"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/assignments/confirm/{workNumber}" : {
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "[DEPRECATED] Confirm an assignment",
+        "description" : "",
+        "operationId" : "confirmDeprecated",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        },
+        "deprecated" : true
+      }
+    },
+    "/worker/v2/assignments/reject/{workNumber}" : {
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "[DEPRECATED] Decline an assignment",
+        "description" : "",
+        "operationId" : "rejectDeprecated",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "meta" : {
+                  "$ref" : "#/definitions/meta"
+                },
+                "pagination" : {
+                  "type" : "object"
+                },
+                "results" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/definitions/DeclineWork"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated" : true
+      }
+    },
+    "/worker/v2/assignments/reschedule/{workNumber}" : {
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "[DEPRECATED] Reschedule an assignment",
+        "description" : "",
+        "operationId" : "rescheduleDeprecated",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Reschedule"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/assignments/{workNumber}" : {
+      "get" : {
+        "tags" : [ "assignment", "worker" ],
+        "summary" : "Get the details of the given assignment",
+        "description" : "",
+        "operationId" : "getDetails",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/assignments/{workNumber}/accept" : {
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "Accept an assignment",
+        "description" : "",
+        "operationId" : "accept",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "meta" : {
+                  "$ref" : "#/definitions/meta"
+                },
+                "pagination" : {
+                  "type" : "object"
+                },
+                "results" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/definitions/AcceptWork"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/assignments/{workNumber}/application" : {
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "Apply for an assignment",
+        "description" : "",
+        "operationId" : "apply",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/AssignmentApplication"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/assignments/{workNumber}/application/cancel" : {
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "Cancel an assignment application",
+        "description" : "",
+        "operationId" : "cancelApplication",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/assignments/{workNumber}/assets/{assetUUID}" : {
+      "get" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "Get an asset for an assignment",
+        "description" : "",
+        "operationId" : "getAsset",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "assetUUID",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "Update an asset of an assignment",
+        "description" : "",
+        "operationId" : "updateAsset",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "assetUUID",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/UpdateAsset"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/assignments/{workNumber}/checkin" : {
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "Check-in to an assignment",
+        "description" : "",
+        "operationId" : "checkIn",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/CheckIn"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/assignments/{workNumber}/checkin/{checkInOutPairId}" : {
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "Update a Check-in",
+        "description" : "",
+        "operationId" : "updateCheckIn",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "checkInOutPairId",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/CheckIn"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/assignments/{workNumber}/checkout" : {
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "Check-out of an assignment",
+        "description" : "",
+        "operationId" : "checkOut",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/CheckOut"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/assignments/{workNumber}/checkout/{checkInOutPairId}" : {
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "Update a Check-out",
+        "description" : "",
+        "operationId" : "updateCheckOut",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "checkInOutPairId",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/CheckOut"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/assignments/{workNumber}/complete" : {
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "Complete an assignment",
+        "description" : "",
+        "operationId" : "complete",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Complete"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/assignments/{workNumber}/confirm" : {
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "Confirm an assignment",
+        "description" : "",
+        "operationId" : "confirm",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/assignments/{workNumber}/customfields" : {
+      "get" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "Get custom fields for an assignment",
+        "description" : "",
+        "operationId" : "getCustomFields",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "Save custom fields",
+        "description" : "",
+        "operationId" : "saveCustomFields",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/SaveCustomFields"
+          }
+        }, {
+          "name" : "onComplete",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/assignments/{workNumber}/decline" : {
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "Decline an assignment",
+        "description" : "",
+        "operationId" : "decline",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "meta" : {
+                  "$ref" : "#/definitions/meta"
+                },
+                "pagination" : {
+                  "type" : "object"
+                },
+                "results" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/definitions/DeclineWork"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/assignments/{workNumber}/deliverables" : {
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "Add a deliverable",
+        "description" : "",
+        "operationId" : "addDeliverable",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/AddDeliverable"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/assignments/{workNumber}/deliverables/{assetUuid}/removeUuid" : {
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "Delete a deliverable by UUID",
+        "description" : "",
+        "operationId" : "deleteDeliverableUuid",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "assetUuid",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/assignments/{workNumber}/deliverables/{deliverableId}/remove" : {
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "Delete a deliverable by ID",
+        "description" : "",
+        "operationId" : "deleteDeliverable",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "deliverableId",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/assignments/{workNumber}/deliverables/{deliverableRequirementId}" : {
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "Add a deliverable to a requirement set",
+        "description" : "",
+        "operationId" : "addDeliverableToRequirement",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "deliverableRequirementId",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/AddDeliverable"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/assignments/{workNumber}/deliverables/{deliverableRequirementId}/{deliverableId}" : {
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "Update a deliverable",
+        "description" : "",
+        "operationId" : "updateDeliverable",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "deliverableRequirementId",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "name" : "deliverableId",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/AddDeliverable"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/assignments/{workNumber}/labels" : {
+      "get" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "Get all labels for an assignment",
+        "description" : "",
+        "operationId" : "getLabels",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/assignments/{workNumber}/labels/{labelId}" : {
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "Add a label to an assignment",
+        "description" : "",
+        "operationId" : "addLabel",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "labelId",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/AddLabel"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/assignments/{workNumber}/messages" : {
+      "get" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "Get all message for an assignment",
+        "description" : "",
+        "operationId" : "getMessages",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "",
+          "in" : "query",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "",
+          "in" : "query",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "Add a message to an assignment",
+        "description" : "",
+        "operationId" : "addMessage",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/AddMessage"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/assignments/{workNumber}/pricing/bonus" : {
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "Request a bonus",
+        "description" : "",
+        "operationId" : "postBonusRequest",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Negotiation"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/assignments/{workNumber}/pricing/budgetIncrease" : {
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "Request a budget increase",
+        "description" : "",
+        "operationId" : "postBudgetIncreaseRequest",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Negotiation"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/assignments/{workNumber}/pricing/expenseReimbursement" : {
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "Request an expense reimbursement",
+        "description" : "",
+        "operationId" : "postExpenseReimbursementRequest",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Negotiation"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/assignments/{workNumber}/questions" : {
+      "get" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "Get all questions for an assignment",
+        "description" : "",
+        "operationId" : "getQuestions",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "",
+          "in" : "query",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "",
+          "in" : "query",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "Add a question to an assignment",
+        "description" : "",
+        "operationId" : "addQuestion",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Question"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/assignments/{workNumber}/reschedule" : {
+      "post" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "Reschedule an assignment",
+        "description" : "",
+        "operationId" : "reschedule",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Reschedule"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/feed" : {
+      "get" : {
+        "tags" : [ "Assignments" ],
+        "summary" : "Get the assignment feed for the currently logged in user",
+        "description" : "",
+        "operationId" : "getFeed",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/FeedRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/funds" : {
+      "get" : {
+        "tags" : [ "Funds" ],
+        "summary" : "Get all funds for the logged in user",
+        "description" : "",
+        "operationId" : "get",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/funds/fastFund/{workNumber}" : {
+      "post" : {
+        "tags" : [ "Funds" ],
+        "summary" : "Fast Fund an assignment",
+        "description" : "",
+        "operationId" : "fastFundAssignment",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "workNumber",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/funds/withdraw" : {
+      "post" : {
+        "tags" : [ "Funds" ],
+        "summary" : "Withdraw funds",
+        "description" : "",
+        "operationId" : "withdraw",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/WithdrawalRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/services" : {
+      "get" : {
+        "tags" : [ "services", "worker", "Assignments" ],
+        "summary" : "[NOOP]",
+        "description" : "",
+        "operationId" : "get",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/services/background-check" : {
+      "get" : {
+        "tags" : [ "services", "worker", "Assignments" ],
+        "summary" : "Request status of a background check",
+        "description" : "",
+        "operationId" : "requestBackgroundCheckStatus",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "services", "worker", "Assignments" ],
+        "summary" : "Request a background check",
+        "description" : "",
+        "operationId" : "requestBackgroundCheck",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/ScreeningWithPayment"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/services/drug-test" : {
+      "get" : {
+        "tags" : [ "services", "worker", "Assignments" ],
+        "summary" : "Request the status of a drug test",
+        "description" : "",
+        "operationId" : "requestDrugTestStatus",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "services", "worker", "Assignments" ],
+        "summary" : "Request a drug test",
+        "description" : "",
+        "operationId" : "requestDrugTest",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/ScreeningWithPayment"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    },
+    "/worker/v2/services/drug-test-ok" : {
+      "post" : {
+        "tags" : [ "services", "worker", "Assignments" ],
+        "summary" : "[NOOP]",
+        "description" : "",
+        "operationId" : "requestDrugTestOk",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/ScreeningWithPayment"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApiV2Response"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "AcceptWork" : {
+      "type" : "object",
+      "properties" : {
+        "successful" : {
+          "type" : "boolean",
+          "description" : "successful",
+          "readOnly" : true,
+          "default" : false
+        }
+      }
+    },
+    "AddDeliverable" : {
+      "type" : "object",
+      "required" : [ "data", "name" ],
+      "properties" : {
+        "name" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "position" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true,
+          "minimum" : 0.0
+        },
+        "data" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "AddLabel" : {
+      "type" : "object",
+      "properties" : {
+        "message" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "schedule" : {
+          "readOnly" : true,
+          "$ref" : "#/definitions/Reschedule"
+        }
+      }
+    },
+    "AddMessage" : {
+      "type" : "object",
+      "required" : [ "message" ],
+      "properties" : {
+        "message" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "Address" : {
+      "type" : "object",
+      "properties" : {
+        "addressLine1" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "addressLine2" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "city" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "state" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "zip" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "country" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "geo" : {
+          "readOnly" : true,
+          "$ref" : "#/definitions/GeoPoint"
+        }
+      }
+    },
+    "ApiV2Response" : {
+      "type" : "object",
+      "properties" : {
+        "meta" : {
+          "description" : "Details about this response",
+          "readOnly" : true,
+          "$ref" : "#/definitions/meta"
+        },
+        "results" : {
+          "description" : "List of results",
+          "readOnly" : true,
+          "$ref" : "#/definitions/__GenericList__"
+        },
+        "pagination" : {
+          "type" : "object",
+          "description" : "Pagination details (optional)",
+          "readOnly" : true
+        }
+      }
+    },
+    "AssignmentApplication" : {
+      "type" : "object",
+      "properties" : {
+        "pricing" : {
+          "readOnly" : true,
+          "$ref" : "#/definitions/Negotiation"
+        },
+        "schedule" : {
+          "readOnly" : true,
+          "$ref" : "#/definitions/Reschedule"
+        },
+        "expirationDate" : {
+          "type" : "integer",
+          "format" : "int64",
+          "readOnly" : true
+        },
+        "message" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "AssignmentRequest" : {
+      "type" : "object",
+      "properties" : {
+        "status" : {
+          "readOnly" : true,
+          "$ref" : "#/definitions/WorkStatusType"
+        },
+        "fields" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "page" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "pageSize" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true,
+          "maximum" : 30.0
+        },
+        "sort" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "CheckIn" : {
+      "type" : "object",
+      "properties" : {
+        "latitude" : {
+          "type" : "number",
+          "format" : "double",
+          "readOnly" : true,
+          "minimum" : -90.0,
+          "maximum" : 90.0
+        },
+        "longitude" : {
+          "type" : "number",
+          "format" : "double",
+          "readOnly" : true,
+          "minimum" : -180.0,
+          "maximum" : 180.0
+        }
+      }
+    },
+    "CheckOut" : {
+      "type" : "object",
+      "properties" : {
+        "noteText" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "latitude" : {
+          "type" : "number",
+          "format" : "double",
+          "readOnly" : true,
+          "minimum" : -90.0,
+          "maximum" : 90.0
+        },
+        "longitude" : {
+          "type" : "number",
+          "format" : "double",
+          "readOnly" : true,
+          "minimum" : -180.0,
+          "maximum" : 180.0
+        }
+      }
+    },
+    "Company" : {
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "Complete" : {
+      "type" : "object",
+      "properties" : {
+        "resolution" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "overrideMinutesWorked" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "units" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "additionalExpenses" : {
+          "type" : "number",
+          "format" : "double",
+          "readOnly" : true
+        },
+        "overridePrice" : {
+          "type" : "number",
+          "format" : "double",
+          "readOnly" : true
+        },
+        "taxPercent" : {
+          "type" : "number",
+          "format" : "double",
+          "readOnly" : true
+        }
+      }
+    },
+    "Coordinate" : {
+      "type" : "object",
+      "properties" : {
+        "longitude" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "latitude" : {
+          "type" : "number",
+          "format" : "double"
+        }
+      }
+    },
+    "CreateNewWorkerRequest" : {
+      "type" : "object",
+      "properties" : {
+        "firstName" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "lastName" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "email" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "password" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "jobTitle" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "recruitingCampaignId" : {
+          "type" : "integer",
+          "format" : "int64",
+          "readOnly" : true
+        },
+        "companyName" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "country" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "city" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "postalCode" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "state" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "longitude" : {
+          "type" : "number",
+          "readOnly" : true
+        },
+        "latitude" : {
+          "type" : "number",
+          "readOnly" : true
+        },
+        "industryId" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "CreateNewWorkerResponse" : {
+      "type" : "object",
+      "properties" : {
+        "userNumber" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string"
+        }
+      }
+    },
+    "CustomField" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64",
+          "readOnly" : true
+        },
+        "name" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "value" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "defaultValue" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "visibleToResource" : {
+          "type" : "boolean",
+          "readOnly" : true,
+          "default" : false
+        },
+        "visibleToOwner" : {
+          "type" : "boolean",
+          "readOnly" : true,
+          "default" : false
+        },
+        "required" : {
+          "type" : "boolean",
+          "readOnly" : true,
+          "default" : false
+        },
+        "type" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "readOnly" : {
+          "type" : "boolean",
+          "readOnly" : true,
+          "default" : false
+        },
+        "showOnPrintout" : {
+          "type" : "boolean",
+          "readOnly" : true,
+          "default" : false
+        },
+        "showInAssignmentHeader" : {
+          "type" : "boolean",
+          "readOnly" : true,
+          "default" : false
+        },
+        "showOnSentStatus" : {
+          "type" : "boolean",
+          "readOnly" : true,
+          "default" : false
+        }
+      }
+    },
+    "CustomFieldGroup" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64",
+          "readOnly" : true
+        },
+        "name" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "required" : {
+          "type" : "boolean",
+          "readOnly" : true,
+          "default" : false
+        },
+        "position" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "fields" : {
+          "type" : "array",
+          "readOnly" : true,
+          "uniqueItems" : true,
+          "items" : {
+            "$ref" : "#/definitions/CustomField"
+          }
+        }
+      }
+    },
+    "DeclineWork" : {
+      "type" : "object",
+      "properties" : {
+        "successful" : {
+          "type" : "boolean",
+          "description" : "successful",
+          "readOnly" : true,
+          "default" : false
+        }
+      }
+    },
+    "FeedRequest" : {
+      "type" : "object",
+      "properties" : {
+        "keyword" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "industryId" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "latitude" : {
+          "type" : "number",
+          "format" : "double",
+          "readOnly" : true
+        },
+        "longitude" : {
+          "type" : "number",
+          "format" : "double",
+          "readOnly" : true
+        },
+        "radius" : {
+          "type" : "number",
+          "format" : "double",
+          "readOnly" : true
+        },
+        "virtual" : {
+          "type" : "boolean",
+          "readOnly" : true,
+          "default" : false
+        },
+        "fields" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "when" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "page" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "pageSize" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "sortByDistance" : {
+          "type" : "boolean",
+          "readOnly" : true,
+          "default" : false
+        },
+        "filterOutApplied" : {
+          "type" : "boolean",
+          "readOnly" : true,
+          "default" : false
+        },
+        "sort" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "startDate" : {
+          "type" : "integer",
+          "format" : "int64",
+          "readOnly" : true
+        },
+        "endDate" : {
+          "type" : "integer",
+          "format" : "int64",
+          "readOnly" : true
+        },
+        "filter" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "GeoPoint" : {
+      "type" : "object",
+      "properties" : {
+        "latitude" : {
+          "type" : "number",
+          "format" : "double",
+          "readOnly" : true
+        },
+        "longitude" : {
+          "type" : "number",
+          "format" : "double",
+          "readOnly" : true
+        }
+      }
+    },
+    "Negotiation" : {
+      "type" : "object",
+      "properties" : {
+        "flatPrice" : {
+          "type" : "number",
+          "format" : "double",
+          "readOnly" : true
+        },
+        "perHour" : {
+          "type" : "number",
+          "format" : "double",
+          "readOnly" : true
+        },
+        "maxHours" : {
+          "type" : "number",
+          "format" : "double",
+          "readOnly" : true
+        },
+        "initialHours" : {
+          "type" : "number",
+          "format" : "double",
+          "readOnly" : true
+        },
+        "perAdditionalHour" : {
+          "type" : "number",
+          "format" : "double",
+          "readOnly" : true
+        },
+        "maxAdditionalHours" : {
+          "type" : "number",
+          "format" : "double",
+          "readOnly" : true
+        },
+        "perUnit" : {
+          "type" : "number",
+          "format" : "double",
+          "readOnly" : true
+        },
+        "maxUnits" : {
+          "type" : "number",
+          "format" : "double",
+          "readOnly" : true
+        },
+        "blendedPerHour" : {
+          "type" : "number",
+          "format" : "double",
+          "readOnly" : true
+        },
+        "internal" : {
+          "type" : "boolean",
+          "readOnly" : true,
+          "default" : false
+        },
+        "bonus" : {
+          "type" : "number",
+          "format" : "double",
+          "readOnly" : true
+        },
+        "reimbursement" : {
+          "type" : "number",
+          "format" : "double",
+          "readOnly" : true
+        },
+        "note" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "PaymentDTO" : {
+      "type" : "object",
+      "required" : [ "addressTypeCode", "city", "country" ],
+      "properties" : {
+        "addressId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "address1" : {
+          "type" : "string"
+        },
+        "address2" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 100
+        },
+        "city" : {
+          "type" : "string",
+          "minLength" : 1,
+          "maxLength" : 100
+        },
+        "state" : {
+          "type" : "string"
+        },
+        "postalCode" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 9
+        },
+        "country" : {
+          "type" : "string",
+          "minLength" : 2,
+          "maxLength" : 45
+        },
+        "addressTypeCode" : {
+          "type" : "string"
+        },
+        "locationTypeId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "dressCodeId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "latitude" : {
+          "type" : "number"
+        },
+        "longitude" : {
+          "type" : "number"
+        },
+        "paymentType" : {
+          "type" : "string"
+        },
+        "amount" : {
+          "type" : "string"
+        },
+        "firstName" : {
+          "type" : "string"
+        },
+        "lastName" : {
+          "type" : "string"
+        },
+        "cardType" : {
+          "type" : "string"
+        },
+        "cardNumber" : {
+          "type" : "string"
+        },
+        "cardExpirationMonth" : {
+          "type" : "string"
+        },
+        "cardExpirationYear" : {
+          "type" : "string"
+        },
+        "cardSecurityCode" : {
+          "type" : "string"
+        },
+        "nameOnCard" : {
+          "type" : "string"
+        },
+        "cardExpirationDateString" : {
+          "type" : "string"
+        },
+        "creditCard" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "firstNameOnCard" : {
+          "type" : "string"
+        },
+        "lastNameOnCard" : {
+          "type" : "string"
+        },
+        "account" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "latLongSet" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "setAddress1" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "setAddress2" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "setCity" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "setState" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "setPostalCode" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "setCountry" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "setAddressTypeCode" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "setLocationTypeId" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "fullAddress" : {
+          "type" : "string"
+        },
+        "shortAddress" : {
+          "type" : "string"
+        },
+        "addressForGeocoder" : {
+          "type" : "string"
+        },
+        "coordinate" : {
+          "$ref" : "#/definitions/Coordinate"
+        }
+      }
+    },
+    "PhoneNumberDTO" : {
+      "type" : "object",
+      "properties" : {
+        "entityId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "phone" : {
+          "type" : "string"
+        },
+        "extension" : {
+          "type" : "string"
+        },
+        "contactContextType" : {
+          "type" : "string",
+          "enum" : [ "WORK", "HOME", "OTHER", "SMS" ]
+        }
+      }
+    },
+    "Profile" : {
+      "type" : "object",
+      "properties" : {
+        "userNumber" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "firstName" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "lastName" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "email" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "avatarUri" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "phoneNumber" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "jobTitle" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "skills" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/Skill"
+          }
+        },
+        "address" : {
+          "readOnly" : true,
+          "$ref" : "#/definitions/Address"
+        }
+      },
+      "description" : "A worker profile"
+    },
+    "Question" : {
+      "type" : "object",
+      "required" : [ "text" ],
+      "properties" : {
+        "text" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "Reschedule" : {
+      "type" : "object",
+      "properties" : {
+        "start" : {
+          "type" : "integer",
+          "format" : "int64",
+          "readOnly" : true
+        },
+        "startWindowBegin" : {
+          "type" : "integer",
+          "format" : "int64",
+          "readOnly" : true
+        },
+        "startWindowEnd" : {
+          "type" : "integer",
+          "format" : "int64",
+          "readOnly" : true
+        },
+        "end" : {
+          "type" : "integer",
+          "format" : "int64",
+          "readOnly" : true
+        },
+        "note" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "SaveCustomFields" : {
+      "type" : "object",
+      "properties" : {
+        "customFields" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/CustomFieldGroup"
+          }
+        }
+      }
+    },
+    "Scorecard" : {
+      "type" : "object"
+    },
+    "ScreeningDTO" : {
+      "type" : "object",
+      "required" : [ "addressTypeCode", "city", "country" ],
+      "properties" : {
+        "addressId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "address1" : {
+          "type" : "string"
+        },
+        "address2" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 100
+        },
+        "city" : {
+          "type" : "string",
+          "minLength" : 1,
+          "maxLength" : 100
+        },
+        "state" : {
+          "type" : "string"
+        },
+        "postalCode" : {
+          "type" : "string",
+          "minLength" : 0,
+          "maxLength" : 9
+        },
+        "country" : {
+          "type" : "string",
+          "minLength" : 2,
+          "maxLength" : 45
+        },
+        "addressTypeCode" : {
+          "type" : "string"
+        },
+        "locationTypeId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "dressCodeId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "latitude" : {
+          "type" : "number"
+        },
+        "longitude" : {
+          "type" : "number"
+        },
+        "screeningId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "title" : {
+          "type" : "string"
+        },
+        "firstName" : {
+          "type" : "string"
+        },
+        "middleName" : {
+          "type" : "string"
+        },
+        "lastName" : {
+          "type" : "string"
+        },
+        "maidenName" : {
+          "type" : "string"
+        },
+        "gender" : {
+          "type" : "string"
+        },
+        "phone" : {
+          "$ref" : "#/definitions/PhoneNumberDTO"
+        },
+        "mobilePhone" : {
+          "$ref" : "#/definitions/PhoneNumberDTO"
+        },
+        "birthDay" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "birthMonth" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "birthYear" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "dateOfBirth" : {
+          "type" : "string"
+        },
+        "workIdentificationNumber" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string"
+        },
+        "referenceId" : {
+          "type" : "string"
+        },
+        "screeningType" : {
+          "type" : "string"
+        },
+        "vendorName" : {
+          "type" : "string"
+        },
+        "latLongSet" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "setAddress1" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "setAddress2" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "setCity" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "setState" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "setPostalCode" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "setCountry" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "setAddressTypeCode" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "setLocationTypeId" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "fullAddress" : {
+          "type" : "string"
+        },
+        "shortAddress" : {
+          "type" : "string"
+        },
+        "addressForGeocoder" : {
+          "type" : "string"
+        },
+        "coordinate" : {
+          "$ref" : "#/definitions/Coordinate"
+        }
+      }
+    },
+    "ScreeningWithPayment" : {
+      "type" : "object",
+      "required" : [ "payment", "screening" ],
+      "properties" : {
+        "screening" : {
+          "readOnly" : true,
+          "$ref" : "#/definitions/ScreeningDTO"
+        },
+        "payment" : {
+          "readOnly" : true,
+          "$ref" : "#/definitions/PaymentDTO"
+        }
+      }
+    },
+    "Skill" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64",
+          "example" : "e44cc935-0813-4198-baa3-b3cb70a32e7e",
+          "description" : "id",
+          "readOnly" : true
+        },
+        "name" : {
+          "type" : "string",
+          "example" : "Project Management",
+          "description" : "name",
+          "readOnly" : true
+        }
+      }
+    },
+    "UpdateAsset" : {
+      "type" : "object",
+      "required" : [ "data" ],
+      "properties" : {
+        "data" : {
+          "type" : "string",
+          "readOnly" : true
+        }
+      }
+    },
+    "WithdrawalRequest" : {
+      "type" : "object",
+      "required" : [ "account", "amount" ],
+      "properties" : {
+        "account" : {
+          "type" : "integer",
+          "format" : "int64",
+          "readOnly" : true
+        },
+        "amount" : {
+          "type" : "number",
+          "readOnly" : true,
+          "minimum" : 0.01
+        }
+      }
+    },
+    "WorkStatusType" : {
+      "type" : "object",
+      "required" : [ "clientVisible", "employeeVisible", "resourceVisible" ],
+      "properties" : {
+        "code" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "clientVisible" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "employeeVisible" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "resourceVisible" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "complete" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "employeeFormatted" : {
+          "type" : "string"
+        },
+        "voidOrCancelled" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "paid" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "draft" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "sent" : {
+          "type" : "boolean",
+          "default" : false
+        }
+      }
+    },
+    "WorkersSearchRequest" : {
+      "type" : "object",
+      "properties" : {
+        "keyword" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "page" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "pageSize" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "sortby" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "order" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "radius" : {
+          "type" : "integer",
+          "format" : "int32",
+          "readOnly" : true
+        },
+        "address" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "countries" : {
+          "type" : "array",
+          "readOnly" : true,
+          "uniqueItems" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "industries" : {
+          "type" : "array",
+          "readOnly" : true,
+          "uniqueItems" : true,
+          "items" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }
+      }
+    },
+    "WorkersSearchResult" : {
+      "type" : "object",
+      "properties" : {
+        "firstName" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "lastName" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "jobTitle" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "userNumber" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "company" : {
+          "readOnly" : true,
+          "$ref" : "#/definitions/Company"
+        },
+        "certifications" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "insurances" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "groups" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "lastBackgroundCheckDate" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "lastDrugTestDate" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "lastAssignedWorkDate" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "email" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "workPhone" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "mobilePhone" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "address" : {
+          "readOnly" : true,
+          "$ref" : "#/definitions/Address"
+        },
+        "smallAvatarAssetUri" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "skillNames" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "scoreCard" : {
+          "readOnly" : true,
+          "$ref" : "#/definitions/Scorecard"
+        },
+        "toolNames" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "meta" : {
+      "type" : "object",
+      "properties" : {
+        "statusCode" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "HTTP status code of this response"
+        },
+        "responseTime" : {
+          "type" : "number",
+          "format" : "double",
+          "description" : "Server response time in seconds"
+        },
+        "clientRequestId" : {
+          "type" : "string",
+          "description" : "Unique id provided by client"
+        },
+        "timestamp" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "Request start time in seconds from epoch"
+        },
+        "requestId" : {
+          "type" : "string",
+          "description" : "UUID of this request"
+        }
+      },
+      "description" : "Metadata about this request"
+    }
+  }
+}

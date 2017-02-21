@@ -19,14 +19,18 @@
     "prejshint": "gulp",
     "jshint": "jshint .",
     "pretest": "npm run jshint",
-    "test": "mocha"
+    "test": "mocha",
+    "start": "gulp serve"
+  },
+  "engines": {
+    "node": "7.4.0"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/swagger-api/swagger-ui.git"
   },
   "readmeFilename": "README.md",
-  "devDependencies": {
+  "dependencies": {
     "chai": "^2.1.0",
     "cors": "^2.5.3",
     "docco": "^0.7.0",
